@@ -1,0 +1,212 @@
+{% extends "adminlte/base.html" %}
+{% load i18n static custom_tags %}
+
+{% block extrastyle %}
+<style>
+body {
+    background: #f8f8f6;
+}
+.triangle-top-left {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 32vw;
+    height: 32vw;
+    max-width: 500px;
+    max-height: 500px;
+    background: #d2ad6c;
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    z-index: 0;
+}
+.triangle-bottom-right {
+    position: fixed;
+    bottom: -150px;
+    right: -50px;
+    width: 32vw;
+    height: 32vw;
+    max-width: 500px;
+    max-height: 500px;
+    background: #d2ad6c;
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    z-index: 0;
+    transform: rotate(-60deg);
+}
+.gold-banner {
+    background: #d2ad6c;
+    color: #222;
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem 0;
+    margin-bottom: 5rem;
+    font-size: 1.5rem;
+    border-radius: 0 0 10px 10px;
+    width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.login-title {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+.login-subtitle {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 2rem;
+}
+.login-box {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 0 16px #e0e0e0;
+    padding: 2.5rem 2rem 2rem 2rem;
+    min-width: 600px;
+    max-width: 800px;
+    width:max-content;
+    margin: 2rem auto 1.5rem auto;
+}
+.btn-gold {
+    background: none;
+    border: 2px solid #d2ad6c;
+    color: #d2ad6c;
+    font-weight: 600;
+    border-radius: 8px;
+    width: 100%;
+    margin-bottom: 1rem;
+    transition: background 0.2s, color 0.2s;
+}
+.btn-gold:hover {
+    background: #d2ad6c;
+    color: #fff;
+}
+.btn-google {
+    background: #f5f5f5;
+    color: #222;
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-google img {
+    height: 22px;
+    margin-right: 8px;
+}
+.login-links {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+}
+.login-links a {
+    color: #d2ad6c;
+    text-decoration: underline;
+}
+.login-alt-row {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0 1.5rem 0;
+    flex-wrap: wrap;
+}
+.login-alt-btn {
+    border: 1.5px solid #222;
+    border-radius: 8px;
+    background: #fff;
+    color: #222;
+    padding: 0.5rem 1.2rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: background 0.2s, color 0.2s;
+}
+.login-alt-btn:hover {
+    background: #d2ad6c;
+    color: #fff;
+    border-color: #d2ad6c;
+}
+.orcid-note {
+    font-size: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="triangle-top-left"></div>
+<div class="triangle-bottom-right"></div>
+<div class="gold-banner">{{request.tenant.federal.title}} {{request.tenant.federal.type}}</div>
+<div class="login-box">
+    <div class="text-center mb-4">
+        <div class="login-title">Urban Index Visualization System</div>
+        <div class="login-subtitle">Please enter your Login and your Password</div>
+    </div>
+    <form action="{% tenant_url 'auth:login' %}" method="post">
+        {% csrf_token %}
+        {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+        {% endif %}
+        {% if msg %}
+            <p class="errorlist text-danger">Error : {{ msg }}</p>
+        {% endif %}
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                {{ form.username }}
+            </div>
+        </div>
+        <div class="mb-2">
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                {{ form.password }}
+            </div>
+            <div class="text-end mt-1">
+                <a href="{% tenant_url 'auth:forgot_password' %}" class="small">Forgot password?</a>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="toggle" id="toggle">
+                <label class="form-check-label" for="toggle">Show Password</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-gold mb-2">Login</button>
+        <button type="button" class="btn btn-google mb-2" disabled>
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo">
+            Or, sign-in with Google
+        </button>
+        <div class="text-center mb-2">
+            {% comment %} <span class="text-muted">Not a member yet? <a href=" {% url 'auth:register' %} " class="text-warning" style="font-style:italic;">Register!</a></span> {% endcomment %}
+        </div>
+    </form>
+    {% comment %} <div class="login-alt-row">
+        <button class="login-alt-btn" type="button"><i class="fas fa-user"></i> Author Login</button>
+        <button class="login-alt-btn" type="button"><i class="fas fa-user"></i> Reviewer Login</button>
+        <button class="login-alt-btn" type="button"><i class="fas fa-user"></i> Editor Login</button>
+        <button class="login-alt-btn" type="button"><i class="fas fa-user"></i> Publisher Login</button>
+    </div> {% endcomment %}
+    <div class="orcid-note text-center">
+        <p>
+          Data-Driven Urban Intelligence        
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+document.getElementById('toggle').addEventListener('change', function(){
+  var input = document.getElementById("id_password");
+  if (input.type === "password") {
+    input.type = "text";
+  } else {
+    input.type = "password";
+  }
+});
+</script>
+{% endblock %}

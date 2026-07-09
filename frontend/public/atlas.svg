@@ -1,0 +1,25 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="240" fill="#0F766E" />
+
+  <!-- Atlas Grid -->
+  <circle cx="256" cy="256" r="170" stroke="#99F6E4" stroke-width="10" fill="none" />
+  <ellipse cx="256" cy="256" rx="170" ry="70" stroke="#99F6E4" stroke-width="8" fill="none" />
+  <ellipse cx="256" cy="256" rx="70" ry="170" stroke="#99F6E4" stroke-width="8" fill="none" />
+  <line x1="86" y1="256" x2="426" y2="256" stroke="#99F6E4" stroke-width="8" />
+  <line x1="256" y1="86" x2="256" y2="426" stroke="#99F6E4" stroke-width="8" />
+
+  <!-- Medical Cross -->
+  <rect x="226" y="150" width="60" height="212" rx="12" fill="white" />
+  <rect x="150" y="226" width="212" height="60" rx="12" fill="white" />
+
+  <!-- Location Pin -->
+  <path d="M256 120C220 120 192 148 192 184C192 234 256 310 256 310C256 310 320 234 320 184C320 148 292 120 256 120Z" fill="#EF4444" stroke="white" stroke-width="8"/>
+  <circle cx="256" cy="184" r="22" fill="white" />
+
+  <!-- Text -->
+  <text x="256" y="470" text-anchor="middle" fill="white" font-size="36" font-family="Arial, sans-serif" font-weight="bold">
+    HEALTH ATLAS
+  </text>
+</svg>
+
